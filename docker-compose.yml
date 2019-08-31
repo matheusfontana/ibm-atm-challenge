@@ -1,0 +1,13 @@
+version: '3'
+services:
+  ibm-atm-challenge:
+    restart: always
+    container_name: ibm-atm-challenge
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ibm-atm-challenge:latest
+    expose:
+      - 8080
+    ports:
+      - 8000:8080
