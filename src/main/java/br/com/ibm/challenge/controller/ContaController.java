@@ -2,7 +2,9 @@ package br.com.ibm.challenge.controller;
 
 import br.com.ibm.challenge.domain.Conta;
 import br.com.ibm.challenge.service.ContaService;
+import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +25,7 @@ public class ContaController {
 	@GetMapping("/{numeroConta}")
 	private ResponseEntity<Conta> retornaContaPorNumeroConta(@RequestParam String numeroConta) {
 		try {
-			Optional<Conta> conta = contaService.getContaByNumeroConta(numeroConta);
+			Optional<Conta> conta = Preconditions.checkNotNull(contaService.getContaByNumeroConta(numeroConta));
 
 			if (conta.isPresent()){
 				return ResponseEntity.ok(conta.get());
@@ -36,10 +38,10 @@ public class ContaController {
 	}
 
 	@PostMapping("/")
-	private Long novaConta(@RequestBody Conta conta){
+	private ResponseEntity<Long> novaConta(@RequestBody Conta conta){
 		try{
 			contaService.saveOrUpdate(conta);
-			return conta.getId();
+			return new ResponseEntity<>(conta.getId(), HttpStatus.CREATED);
 		} catch (Exception e) {
 			throw e;
 		}
