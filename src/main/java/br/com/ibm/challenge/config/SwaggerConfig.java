@@ -1,4 +1,4 @@
-package br.com.ibm.challenge;
+package br.com.ibm.challenge.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
